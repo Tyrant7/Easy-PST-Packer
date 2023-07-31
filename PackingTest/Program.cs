@@ -166,8 +166,6 @@ public class PieceTableGenerator
         Console.WriteLine("Packed table:\n");
         decimal[] packedData = PackData(table);
 
-        Console.Write(packedData);
-
         Console.WriteLine("Unpacked table:\n");
         int[][] unpackedData = UnpackData(packedData);
 
