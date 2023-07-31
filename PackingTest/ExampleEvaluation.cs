@@ -27,7 +27,7 @@ namespace PackingTest
 
         private readonly int[][] UnpackedPestoTables;
 
-        // Constructor unpacks the tables and "bakes in" the piece values
+        // Constructor unpacks the tables and "bakes in" the piece values to use in your evaluation
         public ExampleEvaluation()
         {
             UnpackedPestoTables = new int[64][];
