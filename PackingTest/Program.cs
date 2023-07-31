@@ -163,10 +163,10 @@ public class PieceTableGenerator
             eg_king_table
         };
 
-        Console.WriteLine("Packed table:\n");
+        Console.WriteLine("Packed tables:\n");
         decimal[] packedData = PackData(table);
 
-        Console.WriteLine("Unpacked table:\n");
+        Console.WriteLine("Unpacked tables:");
         int[][] unpackedData = UnpackData(packedData);
 
         PrintUnpackedData(unpackedData);
@@ -209,7 +209,7 @@ public class PieceTableGenerator
                 Console.WriteLine();
             Console.Write(packedData[square] + "m, ");
         }
-        Console.WriteLine("\n};");
+        Console.WriteLine("\n};\n");
 
         return packedData;
     }
