@@ -31,14 +31,14 @@ namespace PackingTest
         public ExampleEvaluation()
         {
             UnpackedPestoTables = new int[64][];
-            for (int i = 0; i < 64; i++)
+            UnpackedPestoTables = PackedPestoTables.Select(packedTable =>
             {
                 int pieceType = 0;
-                UnpackedPestoTables[i] = decimal.GetBits(PackedPestoTables[i]).Take(3)
+                return decimal.GetBits(packedTable).Take(3)
                     .SelectMany(c => BitConverter.GetBytes(c)
                         .Select((byte square) => (int)((sbyte)square * 1.461) + PieceValues[pieceType++]))
                     .ToArray();
-            }
+            }).ToArray();
         }
     }
 }
