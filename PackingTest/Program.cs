@@ -144,6 +144,8 @@ public class PieceTableGenerator
     private static readonly short[] PieceValues = { 82, 337, 365, 477, 1025, 0, // Middlegame
                                                     94, 281, 297, 512, 936, 0 }; // Endgame
 
+    private const bool PrintBakedPieceValues = true;
+
     public static void Main()
     {
         List<int[]> table = new()
@@ -224,7 +226,7 @@ public class PieceTableGenerator
             int pieceType = 0;
             pestoUnpacked[i] = decimal.GetBits(tablesToUnpack[i]).Take(3)
                 .SelectMany(c => BitConverter.GetBytes(c)
-                    .Select((byte square) => (int)((sbyte)square * 1.461) + PieceValues[pieceType++]))
+                    .Select((byte square) => (int)((sbyte)square * 1.461) + (PrintBakedPieceValues ? PieceValues[pieceType++] : 0)))
                 .ToArray();
         }
 
