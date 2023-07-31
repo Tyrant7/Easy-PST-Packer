@@ -12,6 +12,6 @@ Once you have your output, copy the packed tables array, and paste it into your 
 From there you'll want to take a look at ExampleEvaluation.cs, which shows an example of how you would unpack these tables in your bot. If need be, you can copy the code from ExampleEvaluation directly into your bot by simply changing the constructor to "MyBot".
 
 ## Notes and Limitations
-Table values are accessed through [square][scoreType] where scoreType is arranged as a number from 0-11 as PawnMG to KingEG.  
-Tables lose a small amount of precision due to the scaling factor which is used when packing and unpacking. Certain values main get rounded up or down and unpack one value away from where they originally sat.  
-Tables are limited to values between -167 and 187 with the default scaling factor. If you would like to use values outside this range be sure to update the scaling factor when packing and unpacking your tables. Doing so may result in an additional decrease in precision.
+1. Table values are accessed through [square][scoreType] where scoreType is arranged as a number from 0-11 as PawnMG to KingEG.  
+2. Tables lose a small amount of precision due to the scaling factor which is used when packing and unpacking. Certain values main get rounded up or down and unpack one value away from where they originally sat.
+3. Tables are limited to values between -167 and 187 with the default scaling factor. If you would like to use values outside this range be sure to update the scaling factor when packing and unpacking your tables. Doing so may result in an additional decrease in precision.
