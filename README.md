@@ -1,10 +1,10 @@
 # Easy-PST-Packer
 A program made for SebLague's Chess Challenge that takes a database of up to 12 PSTs of 64 squares and packs and unpacks them densly.
 
-Token Cost: 
-Packed Data: 64
-Total: 181
-Will cost additional to use inside of evaluation method.
+## Token Cost:
+Packed Data: 64  
+Total: 181  
+Note: Will cost additional tokens to use in evaluation
 
 ## How to use it?
 Download the reposity open up Program.cs. From there you should see the appropriate tables. Simply paste in your values, indexed from a7-h1 into the tables, ensuring that there are 64 values per table, and run the program. You should see the packed tables, followed by a large array of numbers, and below that, the unpacked tables with the piece values baked in, indexed from PawnMG to KingEG. If you would like to see the tables without the baked piece values, you can disable baking the piece values in the debug by changing PrintBakedPieceValues to false in Program.cs.
