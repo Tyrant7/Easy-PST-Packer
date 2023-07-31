@@ -1,5 +1,4 @@
-﻿using ChessChallenge.API;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace PackingTest
 {
-    internal class ExampleBot
+    internal class ExampleEvaluation
     {
-        private readonly int[] GamePhaseIncrement = { 0, 1, 1, 2, 4, 0 };
-
         // None, Pawn, Knight, Bishop, Rook, Queen, King 
         private readonly short[] PieceValues = { 82, 337, 365, 477, 1025, 0, // Middlegame
                                              94, 281, 297, 512, 936, 0}; // Endgame
@@ -31,7 +28,7 @@ namespace PackingTest
         private readonly int[][] UnpackedPestoTables;
 
         // Constructor unpacks the tables and "bakes in" the piece values
-        public ExampleBot()
+        public ExampleEvaluation()
         {
             UnpackedPestoTables = new int[64][];
             for (int i = 0; i < 64; i++)
@@ -42,28 +39,6 @@ namespace PackingTest
                         .Select((byte square) => (int)((sbyte)square * 1.461) + PieceValues[pieceType++]))
                     .ToArray();
             }
-        }
-
-        // Simple tapered eval
-        private int Evaluate()
-        {
-            int middlegame = 0, endgame = 0, gamephase = 0;
-            foreach (PieceList list in board.GetAllPieceLists())
-                foreach (Piece piece in list)
-                {
-                    int pieceType = (int)list.TypeOfPieceInList - 1;
-                    int colour = list.IsWhitePieceList ? 1 : -1;
-                    int index = piece.Square.Index ^ (piece.IsWhite ? 56 : 0);
-
-                    middlegame += colour * UnpackedPestoTables[index][pieceType];
-                    endgame += colour * UnpackedPestoTables[index][pieceType + 6];
-                    gamephase += GamePhaseIncrement[pieceType];
-                }
-
-            // Tapered evaluation
-            int middlegamePhase = Math.Min(gamephase, 24);
-            return (middlegame * middlegamePhase + endgame * (24 - middlegamePhase)) / 24
-                  * (board.IsWhiteToMove ? 1 : -1);
         }
     }
 }

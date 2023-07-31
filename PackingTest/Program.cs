@@ -233,6 +233,7 @@ public class PieceTableGenerator
         return pestoUnpacked;
     }
 
+    // Simply prints the unpacked data for debugging
     private static void PrintUnpackedData(int[][] unpackedData)
     {
         // Print all of the unpacked values
