@@ -30,13 +30,12 @@ namespace PackingTest
         // Constructor unpacks the tables and "bakes in" the piece values to use in your evaluation
         public ExampleEvaluation()
         {
-            UnpackedPestoTables = new int[64][];
             UnpackedPestoTables = PackedPestoTables.Select(packedTable =>
             {
                 int pieceType = 0;
                 return decimal.GetBits(packedTable).Take(3)
                     .SelectMany(c => BitConverter.GetBytes(c)
-                        .Select((byte square) => (int)((sbyte)square * 1.461) + PieceValues[pieceType++]))
+                        .Select(square => (int)((sbyte)square * 1.461) + PieceValues[pieceType++]))
                     .ToArray();
             }).ToArray();
         }
