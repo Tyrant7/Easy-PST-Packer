@@ -7,9 +7,8 @@ public class PieceTableGenerator
     {
         IPSTPacker fullPSTPacker = new _1024TokenChallengePacker();
         IPSTPacker partialPSTPacker = new _400TokenChallengePacker();
+        IPSTPacker miniPacker = new _400TokenPackingMini();
 
-        partialPSTPacker.PackTables();
+        miniPacker.PackTables();
     }
-
-
 }

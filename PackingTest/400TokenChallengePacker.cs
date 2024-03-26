@@ -127,7 +127,7 @@ namespace PackingTest
                 // Pawn
                 new int[]
                 {
-                    0, 1, 2, 3,
+                    0, 1, 2, 7,
                 },
                 // Knight
                 new int[]
@@ -171,15 +171,13 @@ namespace PackingTest
             Console.WriteLine("Files EG: " + packedFilesEG);
 
             // Can can now access our tables
-            byte[] evals = decimal.GetBits(packedRanksMG).Take(3).SelectMany(c => BitConverter.GetBytes(c).ToArray()).ToArray();
-            foreach (byte eval in evals)
-            {
-                // First 4 bits
-                Console.WriteLine(eval & 0x0F);
+            decimal[] packedTables = new decimal[] { packedRanksMG, packedFilesMG, packedRanksMG, packedRanksEG };
 
-                // Second 4 bits
-                Console.WriteLine((eval & 0xF0) >> 4);
-            }
+            // Access our tables through [table (in the order above)][rank/file * pieceType]
+            var unpackedTables = packedTables.Select(table => decimal.GetBits(packedRanksMG).Take(3).SelectMany(c => BitConverter.GetBytes(c)).ToArray()).ToArray();
+
+            Console.WriteLine(unpackedTables[0][0] & 0x0F);
+            Console.WriteLine(unpackedTables[0][1] >> 4 & 0x0F);
         }
 
         private decimal PackFileOrRank(int[][] table)
