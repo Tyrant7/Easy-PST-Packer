@@ -22,11 +22,23 @@ namespace PackingTest
             for (int i = 0; i < tables.Length; i++)
             {
                 ulong[] result = PackTable(tables[i]);
-                packedTables[i * 2] =     result[0];
-                packedTables[i * 2 + 1] = result[1];
+                packedTables[i] =                 result[0];
+                packedTables[i + tables.Length] = result[1];
                 Console.WriteLine(packedTables[i * 2]     + "ul,");
                 Console.WriteLine(packedTables[i * 2 + 1] + "ul,");
             }
+
+            string[] names = new string[]
+            {
+                "Pawn", "Knight", "Bishop", "Rook", "Queen", "King",
+            };
+            Console.WriteLine("{");
+            for (int i = 0; i < packedTables.Length; i++)
+            {
+                Console.WriteLine("//" + names[i % names.Length] + (i < names.Length ? " MG" : " EG"));
+                Console.WriteLine(packedTables[i] + ", ");
+            }
+            Console.WriteLine("};");
 
             Console.WriteLine("\nUnpacking tables...");
             ValidateTablesByUnpacking(packedTables);
@@ -90,46 +102,47 @@ namespace PackingTest
         private int[][][] GetQuantizedTables()
         {
             // Tables tuned with Gedas' tuner (https://github.com/GediminasMasaitis/texel-tuner)
+            // For approximately 33200 epochs
             double[][][] tunedTables = new double[][][]
             {
                 // Pawn
                 new double[][]
                 {
                     // Files
-                    new double[] { 6.38393, 8.25037, 6.34143, 7.28548, 7.91305, 7.62703, 10.8092, 6.14806 },
+                    new double[] { 6.37693, 8.25274, 6.36264, 7.27107, 7.89938, 7.62474, 10.8345, 6.15893 },
 
                     // Ranks
-                    new double[] { 8, 38.6862, 25.9661, 14.8493, 12.4129, 12.1783, 12.834, 15 },
+                    new double[] { 8, 38.6946, 25.976, 14.8538, 12.4039, 12.1668, 12.847, 15 },
                 },
                 // Knight
                 new double[][]
                 {
-                    new double[] { 23.8536, 28.6229, 31.3426, 33.1235, 33.1266, 33.0407, 30.1135, 27.1036 },
-                    new double[] { 27.4406, 38.744, 44.3008, 43.5844, 40.5335, 37.9205, 34.7114, 30.7055 },
+                    new double[] { 23.8633, 28.6201, 31.352, 33.1159, 33.1128, 33.0569, 30.0908, 27.1066 },
+                    new double[] { 27.446, 38.7536, 44.3117, 43.5668, 40.5332, 37.9316, 34.7009, 30.6918 },
                 },
                 // Bishop
                 new double[][]
                 {
-                    new double[] { 30.0289, 32.5641, 33.4458, 33.4804, 33.6129, 32.9522, 34.1189, 31.0432 },
-                    new double[] { 37.3264, 40.6477, 44.8869, 43.9472, 43.3935, 42.9297, 41.2194, 36.7717 },
+                    new double[] { 30.0394, 32.5581, 33.4164, 33.4935, 33.6424, 32.9437, 34.1131, 31.0565 },
+                    new double[] { 37.3327, 40.6508, 44.8988, 43.9623, 43.3967, 42.9432, 41.217, 36.7398 },
                 },
                 // Rook
                 new double[][]
                 {
-                    new double[] { 45.3384, 47.057, 48.7252, 49.4151, 49.0465, 47.811, 47.2039, 42.8001 },
-                    new double[] { 70.9934, 71.758, 69.9503, 67.8935, 64.8939, 63.0599, 62.3776, 63.5789 },
+                    new double[] { 45.3296, 47.0674, 48.7155, 49.4218, 49.0558, 47.8178, 47.1922, 42.7897 },
+                    new double[] { 71.0018, 71.7638, 69.9652, 67.8846, 64.8977, 63.0683, 62.3737, 63.576 },
                 },
                 // Queen
                 new double[][]
                 {
-                    new double[] { 104.31, 106.598, 108.569, 109.718, 109.438, 110.194, 110.286, 110.683 },
-                    new double[] { 114.84, 114.324, 117.889, 114.722, 113.055, 111.95, 111.256, 109.232 },
+                    new double[] { 104.309, 106.592, 108.553, 109.729, 109.434, 110.193, 110.296, 110.696 },
+                    new double[] { 114.849, 114.324, 117.898, 114.726, 113.059, 111.951, 111.246, 109.235 },
                 },
                 // King
                 new double[][]
                 {
-                    new double[] { 0.690797, 5.67324, 5.82118, 3.98028, 3.81101, 3.6857, 6.65352, 3.49414 },
-                    new double[] { 8.09363, 15.302, 17.8725, 16.2859, 13.736, 11.4353, 10.3925, 9.29613 },
+                    new double[] { 0.664526, 5.67965, 5.82646, 3.96895, 3.79627, 3.67599, 6.6648, 3.48458 },
+                    new double[] { 8.09455, 15.3056, 17.8796, 16.2865, 13.7376, 11.4234, 10.3787, 9.30962 },
                 },
             };
 
