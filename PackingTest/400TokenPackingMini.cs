@@ -33,7 +33,7 @@ namespace PackingTest
             Console.WriteLine("{");
             for (int i = 0; i < packedTables.Length; i++)
             {
-                Console.WriteLine("//" + names[i % names.Length] + (i < names.Length ? " MG" : " EG"));
+                Console.WriteLine("//" + names[i % names.Length] + (i < names.Length ? " files" : " ranks"));
                 Console.WriteLine(packedTables[i] + "ul, ");
             }
             Console.WriteLine("};");
@@ -89,10 +89,10 @@ namespace PackingTest
                 Console.WriteLine(result);
             }
 
-            Console.WriteLine("Knight files: ");
+            Console.WriteLine("Pawn ranks: ");
             for (int i = 0; i < 8; i++)
             {
-                int result = (int)((tables[1] >> (i * 8)) & 0xFFul);
+                int result = (int)((tables[6] >> (i * 8)) & 0xFFul);
                 Console.WriteLine(result);
             }
         }
