@@ -30,10 +30,12 @@ namespace PackingTest
             {
                 "Pawn", "Knight", "Bishop", "Rook", "Queen", "King",
             };
+            const bool printNames = false;
             Console.WriteLine("{");
             for (int i = 0; i < packedTables.Length; i++)
             {
-                Console.WriteLine("//" + names[i % names.Length] + (i < names.Length ? " files" : " ranks"));
+                if (printNames)
+                    Console.WriteLine("//" + names[i % names.Length] + (i < names.Length ? " files" : " ranks"));
                 Console.WriteLine(packedTables[i] + "ul, ");
             }
             Console.WriteLine("};");
