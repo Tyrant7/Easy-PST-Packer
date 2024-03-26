@@ -24,8 +24,6 @@ namespace PackingTest
                 ulong[] result = PackTable(tables[i]);
                 packedTables[i] =                 result[0];
                 packedTables[i + tables.Length] = result[1];
-                Console.WriteLine(packedTables[i * 2]     + "ul,");
-                Console.WriteLine(packedTables[i * 2 + 1] + "ul,");
             }
 
             string[] names = new string[]
@@ -36,7 +34,7 @@ namespace PackingTest
             for (int i = 0; i < packedTables.Length; i++)
             {
                 Console.WriteLine("//" + names[i % names.Length] + (i < names.Length ? " MG" : " EG"));
-                Console.WriteLine(packedTables[i] + ", ");
+                Console.WriteLine(packedTables[i] + "ul, ");
             }
             Console.WriteLine("};");
 
@@ -91,7 +89,7 @@ namespace PackingTest
                 Console.WriteLine(result);
             }
 
-            Console.WriteLine("Pawn ranks: ");
+            Console.WriteLine("Knight files: ");
             for (int i = 0; i < 8; i++)
             {
                 int result = (int)((tables[1] >> (i * 8)) & 0xFFul);
