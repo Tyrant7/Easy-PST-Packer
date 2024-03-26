@@ -3,7 +3,7 @@ A program made for SebLague's Chess Challenge that takes a database of up to 12 
 
 ## Token Cost:
 Packed Data: 64  
-Total: 181  
+Total: 171  
 Note: Will cost additional tokens to use in evaluation
 
 ## How to use it?
