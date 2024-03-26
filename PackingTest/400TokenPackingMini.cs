@@ -17,23 +17,27 @@ namespace PackingTest
             Console.WriteLine("Getting quantized tables...");
             int[][][] tables = GetQuantizedTables();
 
-            Console.WriteLine("Packing tables...");
-            ulong[] packedTables = new ulong[tables.Length];
+            Console.WriteLine("\nPacking tables...");
+            ulong[] packedTables = new ulong[tables.Length * 2];
             for (int i = 0; i < tables.Length; i++)
             {
-                packedTables[i] = PackTable(tables[i]);
-                Console.WriteLine(packedTables[i] + "ul,");
+                ulong[] result = PackTable(tables[i]);
+                packedTables[i * 2] =     result[0];
+                packedTables[i * 2 + 1] = result[1];
+                Console.WriteLine(packedTables[i * 2]     + "ul,");
+                Console.WriteLine(packedTables[i * 2 + 1] + "ul,");
             }
 
-            Console.WriteLine("Unpacking tables...");
+            Console.WriteLine("\nUnpacking tables...");
             ValidateTablesByUnpacking(packedTables);
         }
 
-        private ulong PackTable(int[][] table)
+        private ulong[] PackTable(int[][] table)
         {
-            // 64 bits total
-            // 8 ranks + 8 files = 4 bits per entry
-            const int bitsPerEntry = 4;
+            // Each ulong gets 64 bits total
+            // 8 ranks gives us 8 bits per rank
+            // We'll use an additional ulong to cover files
+            const int bitsPerEntry = 8;
             ulong mask = (ulong)Math.Pow(2, bitsPerEntry) - 1;
 
             // Tables comes in this format:
@@ -48,33 +52,37 @@ namespace PackingTest
                 };
             */
 
-            ulong packed = 0;
-            int packedValues = 0;
-
+            ulong packedFiles = 0;
             const int files = 8;
             for (int i = 0; i < files; i++)
             {
-                packed |= ((ulong)table[0][i] & mask) << (packedValues * bitsPerEntry);
-                packedValues++;
+                packedFiles |= ((ulong)table[0][i] & mask) << (i * bitsPerEntry);
             }
 
+            ulong packedRanks = 0;
             const int ranks = 8;
             for (int i = 0; i < ranks; i++)
             {
-                packed |= ((ulong)table[1][i] & mask) << (packedValues * bitsPerEntry);
-                packedValues++;
+                packedRanks |= ((ulong)table[1][i] & mask) << (i * bitsPerEntry);
             }
 
-            return packed;
+            return new ulong[] { packedFiles, packedRanks };
         }
 
         private void ValidateTablesByUnpacking(ulong[] tables)
         {
             // Let's just print the values to make sure we've unpacking correctly
-            Console.WriteLine("Pawn table: ");
-            for (int i = 0; i < 16; i++)
+            Console.WriteLine("Pawn files: ");
+            for (int i = 0; i < 8; i++)
             {
-                int result = (int)((tables[0] >> (i * 4)) & 0x0Ful);
+                int result = (int)((tables[0] >> (i * 8)) & 0xFFul);
+                Console.WriteLine(result);
+            }
+
+            Console.WriteLine("Pawn ranks: ");
+            for (int i = 0; i < 8; i++)
+            {
+                int result = (int)((tables[1] >> (i * 8)) & 0xFFul);
                 Console.WriteLine(result);
             }
         }
@@ -131,8 +139,8 @@ namespace PackingTest
 
             Console.Write("{\n");
 
-            // Now our range is quite small, so we'll lose a lot of precision here. That's ok
-            double maxAllowed = 15;
+            // We'll have to scale some of our values to fit into our range
+            double maxAllowed = 255;
             double scalingFactor = largest / maxAllowed;
 
             Console.WriteLine(scalingFactor);
